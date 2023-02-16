@@ -36,7 +36,7 @@ import java.util.List;
  */
 @Slf4j
 @Traced
-public abstract class MongoHistoriedService<T extends MainObject, S extends SearchObject<T>> extends MongoService<T, S> {
+public abstract class MongoHistoriedObjectService<T extends MainObject, S extends SearchObject<T>> extends MongoObjectService<T, S> {
 	
 	public static final String NULL_USER_EXCEPT_MESSAGE = "User must exist to perform action.";
 	
@@ -58,7 +58,7 @@ public abstract class MongoHistoriedService<T extends MainObject, S extends Sear
 	@Getter
 	private MongoHistoryService<T> historyService = null;
 	
-	public MongoHistoriedService(
+	public MongoHistoriedObjectService(
 		ObjectMapper objectMapper,
 		MongoClient mongoClient,
 		String database,
@@ -73,7 +73,7 @@ public abstract class MongoHistoriedService<T extends MainObject, S extends Sear
 		this.historyService = historyService;
 	}
 	
-	protected MongoHistoriedService(
+	protected MongoHistoriedObjectService(
 		ObjectMapper objectMapper,
 		MongoClient mongoClient,
 		String database,
@@ -176,6 +176,10 @@ public abstract class MongoHistoriedService<T extends MainObject, S extends Sear
 	}
 	
 	public ObjectId add(@NonNull T object) {
+		//TODO:: tweak see if this works/ passes tests/ test manually
+//		if (!this.allowNullEntityForCreate) {
+//			assertNotNullEntity(entity);
+//		}
 		return this.add(object, null);
 	}
 	
@@ -208,17 +212,21 @@ public abstract class MongoHistoriedService<T extends MainObject, S extends Sear
 	 *
 	 * @return The object that was removed
 	 */
-	public T remove(ObjectId objectId, InteractingEntity entity) {
-		//TODO:: client session
+	public T remove(ClientSession session, ObjectId objectId, InteractingEntity entity) {
 		assertNotNullEntity(entity);
-		T removed = super.remove(objectId);
+		T removed = super.remove(session, objectId);
 		
 		this.getHistoryService().objectDeleted(
+			session,
 			removed,
 			entity
 		);
 		
 		return removed;
+	}
+	
+	public T remove(ObjectId objectId, InteractingEntity entity) {
+		return this.remove(null, objectId, entity);
 	}
 	
 	public T remove(String objectId, InteractingEntity entity) {
