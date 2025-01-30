@@ -13,8 +13,8 @@ jobs:
   quarkusIntTest:
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v4
-      - uses: ./.github/workflows/wf-setup.yaml
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/wf-setup
       - uses: gradle/gradle-build-action@v2
         with:
           arguments: quarkusIntTest -x test -Pquarkus.container-image.build=${{ inputs.containerBased }}
