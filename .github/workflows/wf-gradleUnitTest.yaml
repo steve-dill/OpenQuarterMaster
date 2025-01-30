@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./github/workflows/wf-setup.yaml
+      - uses: ./.github/workflows/wf-setup.yaml
       - uses: gradle/gradle-build-action@v2
         with:
           arguments: test
