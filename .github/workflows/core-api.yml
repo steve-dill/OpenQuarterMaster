@@ -34,7 +34,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: steve-dill/OpenQuarterMaster/.github/actions/gradleBuild@4d92421b4c1999d026e847850ff9a1c739152700
+      - uses: "steve-dill/OpenQuarterMaster/.github/actions/gradleBuild@$GITHUB_REF"
         with:
           path: "software/oqm-core-api"
   unitTest:
