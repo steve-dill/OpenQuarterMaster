@@ -32,9 +32,11 @@ defaults:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    uses: ./.github/actions/gradleBuild.yaml
-    with:
-      path: "software/oqm-core-api"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/gradleBuild
+        with:
+          path: "software/oqm-core-api"
   unitTest:
     uses: ./.github/workflows/wf-gradleUnitTest.yaml
     with:
