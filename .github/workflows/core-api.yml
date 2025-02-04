@@ -30,13 +30,13 @@ defaults:
   run:
     working-directory: "software/oqm-core-api"
 env:
-  SHA: ${{ github.ref }}
+  SHA: ${{ github.sha }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: "steve-dill/OpenQuarterMaster/.github/actions/gradleBuild@$SHA"
+      - uses: steve-dill/OpenQuarterMaster/.github/actions/gradleBuild@${{ env.sha }}
         with:
           path: "software/oqm-core-api"
   unitTest:
