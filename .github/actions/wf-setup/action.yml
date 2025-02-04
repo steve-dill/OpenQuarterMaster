@@ -1,4 +1,5 @@
 name: 'WF - setup runner'
+description: 'sets up the java environment on the runner'
 runs:
   using: composite
   steps:
